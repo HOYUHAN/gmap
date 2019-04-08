@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bike</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+        <div class="container">
+                <div class="row">
+                    <div class="col m-3">
+                        <h1>新竹景點規劃</h1>
+                    </div>
+                </div>
+        
+                <div class="d-flex justify-content-between">
+                    <div class="row">
+                        <div class="col">
+                            <div id="map" style="width:700px;height:700px"></div>
+                        </div>
+        
+                    </div> 
+                
+                    <div >
+                        <select class="custom-select" size="70">
+                            <option selected>旅館</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select class="custom-select" size="40">
+                            <option selected>景點</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8_leVd8LRKxvNf0wUTOpr8J8PP6P5GTI"></script>
+<script>
+   $(function () {
+        var map;
+        var center = {
+            lat: 24.8016170,
+            lng: 120.971574
+        };
+        var marker;
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: center,
+            zoom: 15
+        });
+
+        $.ajax({
+            url: "http://opendata.hccg.gov.tw/dataset/7ea7e303-df62-4fbe-a84f-99bdd724b577/resource/c15a9c5f-f6cb-4da5-b8a6-5e7bc4c9eb08/download/20180501160733080.json",
+            // url: "http://opendata.hccg.gov.tw/dataset/7ea7e303-df62-4fbe-a84f-99bdd724b577/resource/c15a9c5f-f6cb-4da5-b8a6-5e7bc4c9eb08/download/20180501160733080.json",
+            type: "GET",
+        }).done(function (data) {
+            for (var item of data) {
+                var marker = new google.maps.Marker({
+                    position: {
+                        lat: parseFloat(item.緯度),
+                        lng: parseFloat(item.經度)
+                    },
+                    map: map,
+                    icon: "http://icons.iconarchive.com/icons/aha-soft/transport/48/bike-icon.png",
+                    title: item.站點名稱
+                });
+            }
+        })
+    })
+
+
+</script>
+
+</html>
